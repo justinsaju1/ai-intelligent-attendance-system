@@ -4,7 +4,7 @@ import time
 
 DATASET_DIR = "dataset/student_images"
 
-def capture_face_live_multi(student_id, templates_needed=8, timeout_sec=30):
+def capture_face_live_multi(student_id, templates_needed=7, timeout_sec=10):
     """
     Captures multiple face templates live for better recognition.
     Saves images as: studentID_1.jpg, studentID_2.jpg, ...

@@ -10,11 +10,15 @@ from student_service import add_student
 from analytics_service import get_attendance_summary, get_total_classes, get_defaulters
 from edit_attendance_service import update_attendance
 from period_config import get_current_period, get_edit_deadline
+from enrollment_service import enroll_student
+
 
 from student_admin_service import (
     get_students, get_departments, get_batches,
     bulk_delete_students, delete_student
 )
+
+from admin_analytics_service import get_class_semester_average_attendance
 
 from admin_services import (
     get_teachers, add_teacher, update_teacher, delete_teacher,
@@ -393,14 +397,43 @@ def teacher_semester_summary():
 # ------------------ CLASS CALENDAR ------------------
 @app.route("/admin/class-calendar", methods=["POST"])
 def admin_set_class_calendar():
-    data = request.get_json(silent=True) or {}
-    class_id = int(data.get("class_id"))
-    date_str = data.get("date")
-    is_working = bool(data.get("is_working"))
-    reason = data.get("reason", "")
+    try:
+        data = request.get_json(silent=True) or {}
 
-    set_class_day(class_id, date_str, is_working, reason)
-    return jsonify({"message": "Class calendar updated"}), 200
+        class_id_raw = data.get("class_id")
+        date_str = data.get("date")
+        is_working_raw = data.get("is_working")
+        reason = (data.get("reason") or "").strip()
+
+        # --------- VALIDATION ----------
+        if class_id_raw is None:
+            return jsonify({"error": "class_id is required"}), 400
+        if not date_str:
+            return jsonify({"error": "date is required (YYYY-MM-DD)"}), 400
+
+        # safe int conversion
+        try:
+            class_id = int(class_id_raw)
+        except:
+            return jsonify({"error": "class_id must be an integer"}), 400
+
+        # safe boolean conversion
+        # Streamlit sends True/False normally, but handle strings too
+        if isinstance(is_working_raw, bool):
+            is_working = is_working_raw
+        elif isinstance(is_working_raw, str):
+            is_working = is_working_raw.strip().lower() in ("true", "1", "yes")
+        else:
+            # default if missing
+            is_working = True
+
+        set_class_day(class_id, date_str, is_working, reason)
+        return jsonify({"message": "Class calendar updated"}), 200
+
+    except Exception as e:
+        # Return real reason to Streamlit
+        return jsonify({"error": f"Calendar save failed: {str(e)}"}), 500
+
 
 @app.route("/admin/class-calendar/<int:class_id>", methods=["GET"])
 def admin_get_class_calendar(class_id):
@@ -428,13 +461,14 @@ def admin_class_semester_analytics():
             {
                 "student_id": r[0],
                 "student_name": r[1],
-                "attendance_percentage": r[2]
+                "attendance_percentage": float(r[2])
             }
             for r in rows
         ]), 200
 
     except Exception as e:
         return jsonify({"error": f"Analytics failed: {str(e)}"}), 500
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True, use_reloader=False)

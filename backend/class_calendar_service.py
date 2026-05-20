@@ -3,17 +3,20 @@ from database import get_connection
 def set_class_day(class_id, date_str, is_working, reason=""):
     conn = get_connection()
     cur = conn.cursor()
-
-    cur.execute("""
-        INSERT INTO class_calendar (class_id, date, is_working, reason)
-        VALUES (%s, %s, %s, %s)
-        ON CONFLICT (class_id, date)
-        DO UPDATE SET is_working=EXCLUDED.is_working, reason=EXCLUDED.reason
-    """, (class_id, date_str, is_working, reason))
-
-    conn.commit()
-    cur.close()
-    conn.close()
+    try:
+        cur.execute("""
+            INSERT INTO class_calendar (class_id, date, is_working, reason)
+            VALUES (%s, %s, %s, %s)
+            ON CONFLICT (class_id, date)
+            DO UPDATE SET is_working=EXCLUDED.is_working, reason=EXCLUDED.reason
+        """, (class_id, date_str, is_working, reason))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
 
 def get_class_calendar(class_id, from_date=None, to_date=None):
     conn = get_connection()

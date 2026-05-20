@@ -1,0 +1,301 @@
+/* Global Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Professional Color Palette */
+    --primary-color: #0f172a;
+    /* Slate 900 - Deep Navy */
+    --primary-hover: #1e293b;
+    /* Slate 800 */
+    --accent-color: #2563eb;
+    /* Royal Blue */
+    --accent-hover: #1d4ed8;
+    /* Darker Blue */
+
+    --background-color: #f8fafc;
+    /* Slate 50 */
+    --surface-color: #ffffff;
+    /* White */
+
+    --text-primary: #1e293b;
+    /* Slate 800 - Main Text */
+    --text-secondary: #64748b;
+    /* Slate 500 - Subtext */
+
+    --border-color: #e2e8f0;
+    /* Slate 200 */
+    --success-color: #10b981;
+    /* Emerald */
+    --warning-color: #f59e0b;
+    /* Amber */
+    --error-color: #ef4444;
+    /* Red */
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+}
+
+/* Base App Styling */
+.stApp {
+    background-color: var(--background-color) !important;
+    font-family: 'Inter', sans-serif !important;
+    color: var(--text-primary) !important;
+}
+
+/* Headers */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Inter', sans-serif !important;
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.025em;
+}
+
+h1 {
+    font-size: 2.25rem !important;
+    margin-bottom: 2rem !important;
+}
+
+h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Text */
+p,
+li,
+span,
+div,
+label {
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.subtext {
+    color: var(--text-secondary) !important;
+    font-size: 0.875rem;
+}
+
+/* Cards */
+.custom-card {
+    background-color: var(--surface-color) !important;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.custom-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.custom-card h3 {
+    margin-top: 0;
+    color: var(--primary-color) !important;
+    font-size: 1.25rem;
+}
+
+.custom-card p {
+    color: var(--text-secondary) !important;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* Buttons */
+.stButton>button {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+    border-radius: var(--radius-md);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    width: auto;
+    /* Allow natural width unless full width requested via st.button use_container_width */
+}
+
+.stButton>button:hover {
+    background-color: var(--accent-hover) !important;
+    box-shadow: var(--shadow-md);
+}
+
+.stButton>button:active {
+    transform: translateY(0);
+}
+
+/* Secondary/Outline Buttons */
+/* Streamlit doesn't expose classes easily for secondary buttons, so we rely on default overriding primary */
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: var(--surface-color) !important;
+    border-right: 1px solid var(--border-color);
+}
+
+section[data-testid="stSidebar"] .block-container {
+    padding-top: 2rem;
+}
+
+/* Metrics */
+[data-testid="stMetricValue"] {
+    font-size: 1.8rem !important;
+    font-weight: 600 !important;
+    color: var(--primary-color) !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--text-secondary) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+}
+
+/* Inputs */
+.stTextInput input,
+.stSelectbox div[data-baseweb="select"],
+.stNumberInput input,
+.stDateInput input {
+    background-color: var(--surface-color) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.5rem !important;
+}
+
+.stTextInput input::placeholder {
+    color: var(--text-secondary) !important;
+}
+
+.stTextInput input:focus,
+.stSelectbox div[data-baseweb="select"]:focus-within {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Fix for Selectbox Popup Menu (which is a portal) */
+div[data-baseweb="popover"],
+div[data-baseweb="menu"],
+div[role="listbox"] {
+    background-color: var(--surface-color) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+div[data-baseweb="option"],
+li[role="option"] {
+    background-color: var(--surface-color) !important;
+    color: var(--text-primary) !important;
+}
+
+div[data-baseweb="option"]:hover,
+li[role="option"]:hover,
+li[role="option"][aria-selected="true"] {
+    background-color: var(--background-color) !important;
+    color: var(--accent-color) !important;
+    font-weight: 500;
+}
+
+/* Force Light text in dropdowns regardless of theme */
+ul[data-baseweb="menu"] li {
+    color: var(--text-primary) !important;
+}
+
+/* Selectbox inner text */
+.stSelectbox div[data-baseweb="select"] div {
+    color: var(--text-primary) !important;
+}
+
+/* Tables */
+.stDataFrame {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--surface-color) !important;
+}
+
+[data-testid="stTable"] {
+    font-size: 0.9rem;
+    color: var(--text-primary) !important;
+    background-color: var(--surface-color) !important;
+}
+
+[data-testid="stTable"] th {
+    background-color: var(--background-color) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+[data-testid="stTable"] td {
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    background-color: var(--surface-color) !important;
+}
+
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stTabs [data-baseweb="tab"] {
+    height: 3rem;
+    white-space: pre-wrap;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+}
+
+.stTabs [aria-selected="true"] {
+    color: var(--accent-color) !important;
+    background-color: transparent !important;
+    border-bottom: 2px solid var(--accent-color) !important;
+}
+
+/* Alerts/Notifications override */
+.stAlert {
+    background-color: var(--surface-color) !important;
+    border: 1px solid var(--border-color) !important;
+    border-left-width: 4px !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* Expander */
+.streamlit-expanderHeader {
+    background-color: var(--surface-color) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+}
+
+.streamlit-expanderContent {
+    border: 1px solid var(--border-color) !important;
+    border-top: none !important;
+    border-bottom-left-radius: var(--radius-md) !important;
+    border-bottom-right-radius: var(--radius-md) !important;
+    background-color: var(--background-color) !important;
+    color: var(--text-primary) !important;
+}
